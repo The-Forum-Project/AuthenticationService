@@ -66,4 +66,15 @@ public class UserService implements UserDetailsService {
 
         return userAuthorities;
     }
+
+    @Transactional
+    public boolean addUser(User user) {
+        if (userDao.loadUserByEmail(user.getEmail()).isPresent()){
+            return false;
+        } else {
+            userDao.addUser(user);
+            return true;
+        }
+
+    }
 }

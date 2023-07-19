@@ -5,6 +5,7 @@ import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.NoResultException;
 import java.util.Optional;
 
 @Repository
@@ -19,7 +20,19 @@ public class UserDao extends AbstractHibernateDao<User> {
         String hql = "FROM User u WHERE u.email = :email";
         Query query = getCurrentSession().createQuery(hql, User.class);
         query.setParameter("email", email);
-        return Optional.ofNullable((User) query.getSingleResult());
+        User res;
+
+        try {
+            res = (User) query.getSingleResult();
+        } catch (NoResultException re) {
+            res = null;
+        }
+
+        return Optional.ofNullable(res);
+    }
+
+    public void addUser(User user) {
+        this.add(user);
     }
 
 }
