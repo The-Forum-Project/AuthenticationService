@@ -5,10 +5,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
 
 @SpringBootApplication(exclude = HibernateJpaAutoConfiguration.class)
-public class HibernateProjectDemoApplication {
+public class AuthenticationService {
 
     public static void main(String[] args) {
-        SpringApplication.run(HibernateProjectDemoApplication.class, args);
+        SpringApplication.run(AuthenticationService.class, args);
     }
 
 }
