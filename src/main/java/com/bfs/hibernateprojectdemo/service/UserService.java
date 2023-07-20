@@ -65,7 +65,7 @@ public class UserService implements UserDetailsService {
         } else if (user.getType() == 2) {
             userAuthorities.add(new SimpleGrantedAuthority("normal"));
             userAuthorities.add(new SimpleGrantedAuthority("unverified"));
-        } else {
+        } else if (user.getType() == 3) {
             userAuthorities.add(new SimpleGrantedAuthority("unverified"));
         }
 
