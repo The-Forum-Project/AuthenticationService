@@ -54,14 +54,19 @@ public class UserService implements UserDetailsService {
         List<GrantedAuthority> userAuthorities = new ArrayList<>();
 
         if (user.getType() == 0){
+            userAuthorities.add(new SimpleGrantedAuthority("super"));
             userAuthorities.add(new SimpleGrantedAuthority("admin"));
-            userAuthorities.add(new SimpleGrantedAuthority("email"));
             userAuthorities.add(new SimpleGrantedAuthority("normal"));
+            userAuthorities.add(new SimpleGrantedAuthority("unverified"));
         } else if (user.getType() == 1) {
-            userAuthorities.add(new SimpleGrantedAuthority("email"));
+            userAuthorities.add(new SimpleGrantedAuthority("admin"));
             userAuthorities.add(new SimpleGrantedAuthority("normal"));
+            userAuthorities.add(new SimpleGrantedAuthority("unverified"));
+        } else if (user.getType() == 2) {
+            userAuthorities.add(new SimpleGrantedAuthority("normal"));
+            userAuthorities.add(new SimpleGrantedAuthority("unverified"));
         } else {
-            userAuthorities.add(new SimpleGrantedAuthority("normal"));
+            userAuthorities.add(new SimpleGrantedAuthority("unverified"));
         }
 
         return userAuthorities;
