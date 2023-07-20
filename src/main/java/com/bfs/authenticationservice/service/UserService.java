@@ -74,10 +74,15 @@ public class UserService implements UserDetailsService {
 
     @Transactional
     public boolean addUser(User user) {
-        if (userDao.loadUserByEmail(user.getEmail()).isPresent()){
+        Optional<User> userFromDB = userDao.loadUserByEmail(user.getEmail());
+        if (userFromDB.isPresent() && userFromDB.get().getActive()) {
             return false;
-        } else {
+        } else if (!userFromDB.isPresent()) {
             userDao.addUser(user);
+            return true;
+        } else {
+            user.setUserId(userFromDB.get().getUserId());
+            userDao.updateUser(user);
             return true;
         }
 

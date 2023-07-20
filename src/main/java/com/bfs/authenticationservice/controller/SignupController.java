@@ -47,7 +47,7 @@ public class SignupController {
                 .password(request.getPassword())
                 .active(true)
                 .dateJoined(LocalDateTime.now())
-                .type(2)
+                .type(4)
                 .code("000000")
                 .profileImageURL("https://forumproject.s3.us-east-2.amazonaws.com/default.jpg")
                 .build();
