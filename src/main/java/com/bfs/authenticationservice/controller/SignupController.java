@@ -57,15 +57,19 @@ public class SignupController {
 
         if (!addSuccess) {
             message = "Duplicate username or email";
+            messageResponse = MessageResponse.builder()
+                    .message(message)
+                    .build();
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(messageResponse);
 
         } else {
             message = "Success! User was added";
+            messageResponse = MessageResponse.builder()
+                    .message(message)
+                    .build();
+            return ResponseEntity.status(HttpStatus.OK).body(messageResponse);
         }
 
-        messageResponse = MessageResponse.builder()
-                .message(message)
-                .build();
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(messageResponse);
     }
 
 }
