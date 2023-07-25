@@ -19,6 +19,10 @@ public class UserDao extends AbstractHibernateDao<User> {
         setClazz(User.class);
     }
 
+    public User getUserById(Long id) {
+        return this.findById(id);
+    }
+
     public Optional<User> loadUserByEmail(String email){
         String hql = "FROM User u WHERE u.email = :email";
         Query query = getCurrentSession().createQuery(hql, User.class);

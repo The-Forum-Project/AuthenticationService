@@ -26,7 +26,7 @@ public abstract class AbstractHibernateDao<T> {
         return session.createQuery(criteria).getResultList();
     }
 
-    public T findById(int id) {
+    public T findById(Long id) {
         return getCurrentSession().get(clazz, id);
     }
 

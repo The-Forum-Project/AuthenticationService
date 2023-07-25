@@ -1,10 +1,12 @@
 package com.bfs.authenticationservice.controller;
 
+import com.bfs.authenticationservice.domain.User;
 import com.bfs.authenticationservice.dto.requests.LoginRequest;
 import com.bfs.authenticationservice.dto.responses.LoginResponse;
 import com.bfs.authenticationservice.exception.InvalidCredentialsException;
 import com.bfs.authenticationservice.security.AuthUserDetail;
 import com.bfs.authenticationservice.security.JwtProvider;
+import com.bfs.authenticationservice.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,14 +26,18 @@ import java.util.stream.Collectors;
 public class LoginController {
 
     private AuthenticationManager authenticationManager;
-
     @Autowired
     public void setAuthenticationManager(AuthenticationManager authenticationManager) {
         this.authenticationManager = authenticationManager;
     }
 
-    private JwtProvider jwtProvider;
+    private UserService userService;
+    @Autowired
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
 
+    private JwtProvider jwtProvider;
     @Autowired
     public void setJwtProvider(JwtProvider jwtProvider) {
         this.jwtProvider = jwtProvider;
@@ -70,6 +76,15 @@ public class LoginController {
 
         //A token wil be created using the username/email/userId and permission
         String token = jwtProvider.createToken(authUserDetail);
+
+        User user = userService.getUserById(authUserDetail.getId());
+
+        if (!user.getActive() || user.getType() == 4) {
+            loginResponse = LoginResponse.builder()
+                    .message("User " + authUserDetail.getId() + " is banned")
+                    .build();
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(loginResponse);
+        }
 
         loginResponse = LoginResponse.builder()
                 .message("User " + authUserDetail.getId() + " successfully logged in")

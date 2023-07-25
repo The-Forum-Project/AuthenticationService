@@ -28,6 +28,11 @@ public class UserService implements UserDetailsService {
     }
 
     @Transactional
+    public User getUserById(Long id) {
+        return userDao.getUserById(id);
+    }
+
+    @Transactional
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<User> userOptional = userDao.loadUserByEmail(username);
