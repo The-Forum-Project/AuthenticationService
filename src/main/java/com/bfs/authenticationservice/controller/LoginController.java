@@ -81,13 +81,13 @@ public class LoginController {
 
         if (!user.getActive() || user.getType() == 4) {
             loginResponse = LoginResponse.builder()
-                    .message("User " + authUserDetail.getId() + " is banned")
+                    .message("User " + authUserDetail.getUsername() + " is banned")
                     .build();
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(loginResponse);
         }
 
         loginResponse = LoginResponse.builder()
-                .message("User " + authUserDetail.getId() + " successfully logged in")
+                .message("User " + authUserDetail.getUsername() + " successfully logged in")
                 .token(token)
                 .build();
 
